@@ -1,0 +1,342 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author"><title>Rclone+OneDrive+Aria2 · 歸海.</title><meta name="description" content="前言Microsoft OneDrive 就是微软的云盘，一般都知道这玩意Aria2 这个知道的人稍微偏少，主要是命令行的一个下载工具，和Wget类似的工具，但又比wget下载协议多比如种子磁力链接Rclone知道这个的就真的少之又少了，百度百科都没收录，官网介绍如下
+Rclone is a com"><meta name="og:description" content="前言Microsoft OneDrive 就是微软的云盘，一般都知道这玩意Aria2 这个知道的人稍微偏少，主要是命令行的一个下载工具，和Wget类似的工具，但又比wget下载协议多比如种子磁力链接Rclone知道这个的就真的少之又少了，百度百科都没收录，官网介绍如下
+Rclone is a com"><meta name="twitter:site" content="歸海."><meta name="twitter:title" content="Rclone+OneDrive+Aria2"><meta name="twitter:card" content="summary"><meta name="keywords" content=""><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="images/favicon.png" type="image/x-icon"><link rel="stylesheet" href="/hexo/css/bootstrap.min.css"><link rel="stylesheet" href="/hexo/css/font-awesome.min.css"><link rel="stylesheet" href="/hexo/css/style-dark.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 6.0.0"><link rel="stylesheet" href="/hexo/css/prism.css" type="text/css"></head><body><div id="stage" class="container"><div class="row"><div id="side-bar" class="col-sm-3 col-xs-12 side-container invisible"><div class="vertical-text site-title"><h3 tabindex="-1" class="site-title-small"><a href="/hexo/" class="a-title">歸海</a></h3><h1 tabindex="-1" class="site-title-large"><a href="/hexo/" class="a-title">歸於珊海.</a></h1><!--h6(onclick="triggerSiteNav()") Trigger--></div><br class="visible-lg visible-md visible-sm"><div id="site-nav" class="site-title-links"><ul><li><a href="/hexo/">首页</a></li><li><a href="/hexo/archives">归档</a></li><li><a href="/hexo/tags">标签</a></li><li class="soc"><a href="http://example.com/atom.xml" target="_blank" rel="noopener noreferrer" aria-label="RSS"><i class="fa fa-rss">&nbsp;</i></a></li></ul><div class="visible-lg visible-md visible-sm site-nav-footer"><br class="site-nav-footer-br"><footer><p>&copy;&nbsp;2022&nbsp;<a target="_blank" href="http://example.com" rel="noopener noreferrer">Yi</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div><div id="main-container" class="col-sm-9 col-xs-12 main-container invisible"><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post-container"><p class="post-title"><a>Rclone+OneDrive+Aria2</a></p><p class="post-meta"><span class="date meta-item">发布于&nbsp;2022-01-14</span><span class="meta-item"><i class="fa fa-tag"></i><span>&nbsp;</span><a href="/hexo/tags/Linux/" title="Linux" class="a-tag">Linux</a><span>&nbsp;</span></span></p><p class="post-abstract"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/OneDrive">Microsoft OneDrive</a> 就是微软的云盘，一般都知道这玩意<br><a target="_blank" rel="noopener" href="http://aria2.baisheng999.com/">Aria2</a> 这个知道的人稍微偏少，主要是命令行的一个下载工具，和<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/wget/">Wget</a>类似的工具，但又比wget下载协议多比如种子磁力链接<br><a target="_blank" rel="noopener" href="https://rclone.org/">Rclone</a>知道这个的就真的少之又少了，百度百科都没收录，官网介绍如下</p>
+<pre><code>Rclone is a command line program to manage files on cloud storage. It is a feature rich alternative to cloud vendors&#39; web storage interfaces. Over 40 cloud storage products support rclone including S3 object stores, business &amp; consumer file storage services, as well as standard transfer protocols.
+
+Rclone是一个命令行程序来管理云存储上的文件。这是一个功能丰富的选择云供应商的网络存储接口。超过40岁的云存储产品支持rclone包括S3对象商店,商业和消费者的文件存储服务,以及标准的传输协议。
+</code></pre>
+<p>讲通俗点就是把网盘挂载到本地xx文件夹里便于操作</p>
+<h3 id="Aria2"><a href="#Aria2" class="headerlink" title="Aria2"></a>Aria2</h3><p>本文使用Termux + Alpine环境进行实战，与其他linux发行版相差不大</p>
+<p>在安装配置好的alpine os内安装Aria2并没有什么难度，无非就是使用apk包管理进行</p>
+<pre class=" language-bash"><code class="language-bash">apk add aria2
+</code></pre>
+<p>然后就可以通过下面这段进行下载文件</p>
+<pre class=" language-bash"><code class="language-bash">aria2c <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;url&amp;#125; </span>
+</code></pre>
+<p>不过这样也只能下载http协议的文件，也只能通过命令行执行，没有一个漂亮的UI，而且功能不算强大我不要，所以接下来要创建Aria2的配置和UI<br>首先进入 <code>/etc</code> 文件夹  <code>ls</code> 查看是否有 <code>aria2</code> 文件夹，没用就创建</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">mkdir</span> /etc/aria2
+</code></pre>
+<p>然后创建</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">touch</span> /etc/aria2/aria2.conf <span class="token comment" spellcheck="true">#配置文件</span>
+<span class="token function">touch</span> /etc/aria2/aria2.session <span class="token comment" spellcheck="true">#下载记录文件</span>
+<span class="token function">touch</span> /etc/aria2/dht.dat <span class="token comment" spellcheck="true">#ipv4网络节点数据</span>
+<span class="token function">touch</span> /etc/aria2/dht6.dat <span class="token comment" spellcheck="true">#ipv6</span>
+</code></pre>
+<p>把下面配置写进<code>/etc/aria2/aria2.conf </code>里</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># 设置的RPC授权令牌, 取代 --rpc-user 和 --rpc-passwd 选项</span>
+<span class="token comment" spellcheck="true"># token可以自己随意设置</span>
+rpc-secret<span class="token operator">=</span>删掉文字，输入一串代表密码的字符
+<span class="token comment" spellcheck="true"># 下面是ssl证书，可以先不管</span>
+<span class="token comment" spellcheck="true">#rpc-private-key=/etc/aria2/server.key</span>
+<span class="token comment" spellcheck="true">#rpc-certificate=/etc/aria2/server.crt</span>
+
+<span class="token comment" spellcheck="true">#允许rpc</span>
+enable-rpc<span class="token operator">=</span>true
+<span class="token comment" spellcheck="true">#允许所有来源, web界面跨域权限需要</span>
+rpc-allow-origin-all<span class="token operator">=</span>true
+<span class="token comment" spellcheck="true">#允许外部访问，false的话只监听本地端口</span>
+rpc-listen-all<span class="token operator">=</span>true
+<span class="token comment" spellcheck="true">#RPC端口, 仅当默认端口被占用时修改</span>
+rpc-listen-port<span class="token operator">=</span>6800
+
+<span class="token comment" spellcheck="true">#文件保存路径, 默认为当前启动位置</span>
+dir<span class="token operator">=</span>/root/downloads/
+<span class="token comment" spellcheck="true">#从会话文件中读取下载任务</span>
+input-file<span class="token operator">=</span>/etc/aria2/aria2.session
+<span class="token comment" spellcheck="true">#在Aria2退出时保存`错误/未完成`的下载任务到会话文件</span>
+save-session<span class="token operator">=</span>/etc/aria2/aria2.session
+<span class="token comment" spellcheck="true">#定时保存会话, 0为退出时才保存, 需1.16.1以上版本, 默认:0</span>
+<span class="token comment" spellcheck="true">#save-session-interval=60</span>
+force-save<span class="token operator">=</span>true
+<span class="token comment" spellcheck="true">#log=/aria2log</span>
+<span class="token comment" spellcheck="true">#log-level=error</span>
+
+<span class="token comment" spellcheck="true">#最大同时下载数(任务数), 路由建议值: 3</span>
+max-concurrent-downloads<span class="token operator">=</span>5
+<span class="token comment" spellcheck="true">#断点续传</span>
+continue<span class="token operator">=</span>true
+<span class="token comment" spellcheck="true">#同服务器连接数</span>
+max-connection-per-server<span class="token operator">=</span>5
+<span class="token comment" spellcheck="true">#最小文件分片大小, 下载线程数上限取决于能分出多少片, 对于小文件重要</span>
+min-split-size<span class="token operator">=</span>10M
+<span class="token comment" spellcheck="true">#单文件最大线程数, 路由建议值: 5</span>
+split<span class="token operator">=</span>10
+<span class="token comment" spellcheck="true">#下载速度限制</span>
+max-overall-download-limit<span class="token operator">=</span>0
+<span class="token comment" spellcheck="true">#单文件速度限制</span>
+max-download-limit<span class="token operator">=</span>0
+<span class="token comment" spellcheck="true">#上传速度限制</span>
+max-overall-upload-limit<span class="token operator">=</span>0
+<span class="token comment" spellcheck="true">#单文件速度限制</span>
+max-upload-limit<span class="token operator">=</span>0
+<span class="token comment" spellcheck="true">#断开速度过慢的连接</span>
+<span class="token comment" spellcheck="true">#lowest-speed-limit=0</span>
+<span class="token comment" spellcheck="true">#文件缓存, 使用内置的文件缓存, 如果你不相信Linux内核文件缓存和磁盘内置缓存时使用, 需要1.16及以上版本</span>
+<span class="token comment" spellcheck="true">#disk-cache=0</span>
+<span class="token comment" spellcheck="true">#另一种Linux文件缓存方式, 使用前确保您使用的内核支持此选项, 需要1.15及以上版本(?)</span>
+<span class="token comment" spellcheck="true">#enable-mmap=true</span>
+<span class="token comment" spellcheck="true">#文件预分配, 能有效降低文件碎片, 提高磁盘性能. 缺点是预分配时间较长</span>
+<span class="token comment" spellcheck="true">#NTFS建议使用falloc, EXT3/4建议trunc, MAC 下需要注释此项所需时间 </span>
+<span class="token comment" spellcheck="true">#none &lt; falloc ? trunc &lt;&lt; prealloc, falloc和trunc需要文件系统和内核支持</span>
+file-allocation<span class="token operator">=</span>prealloc
+<span class="token comment" spellcheck="true"># DHT（IPv4）文件</span>
+dht-file-path<span class="token operator">=</span>/etc/aria2/dht.dat
+<span class="token comment" spellcheck="true"># # DHT（IPv6）文件</span>
+dht-file-path6<span class="token operator">=</span>/etc/aria2/dht6.dat
+<span class="token comment" spellcheck="true"># # 打开DHT功能, PT需要禁用, 默认:true</span>
+<span class="token comment" spellcheck="true"># enable-dht=true</span>
+<span class="token comment" spellcheck="true"># # 打开IPv6 DHT功能, PT需要禁用</span>
+enable-dht6<span class="token operator">=</span>true
+<span class="token comment" spellcheck="true"># # DHT网络监听端口, 默认:6881-6999</span>
+dht-listen-port<span class="token operator">=</span>6881-6999
+<span class="token comment" spellcheck="true"># # 本地节点查找, PT需要禁用, 默认:false</span>
+bt-enable-lpd<span class="token operator">=</span>true
+<span class="token comment" spellcheck="true"># # 种子交换, PT需要禁用, 默认:true</span>
+enable-peer-exchange<span class="token operator">=</span>true
+
+<span class="token comment" spellcheck="true">#种子服务器地址，announce后面有个,号隔开</span>
+bt-tracker<span class="token operator">=</span>udp://open.tracker.cl:1337/announce,udp://tracker.opentrackr.org:1337/announce,http://tracker.opentrackr.org:1337/announce,udp://9.rarbg.com:2810/announce,udp://tracker.openbittorrent.com:6969/announce
+</code></pre>
+<p><code>bt-tracker=</code>有时候需要更新地址，可以在<a target="_blank" rel="noopener" href="https://github.com/ngosang/trackerslist/blob/master/trackers_all.txt">trackerslist</a>里复制，划分好加入aria2.conf里。<br>官方的AriaNg <a target="_blank" rel="noopener" href="http://ariang.mayswind.net/latest/#!/downloading">Dome</a><br>我放Gitee的 <a target="_blank" rel="noopener" href="http://yits.gitee.io/aria">Dome</a></p>
+<p>你也可以自己搭建本地的用<a target="_blank" rel="noopener" href="http://ariang.mayswind.net/zh_Hans/">Ariang</a>下载Web文件，解压Web根目录下面，启动网页服务后打开浏览器，这里不会可以看我其他文章。</p>
+<p>在左边 <code>侧边栏&gt;AriaNg 设置&gt;Aria PRC 密钥</code> 输入上面自己设置的字符串，刷新网页就可以看到，aria2状态是已连接了，有时间的话你可以尝试下载一些比较热门的磁力链接文件预热一下dht.dat文件，这里推荐一个好用的磁力搜索引擎<a target="_blank" rel="noopener" href="https://search.btfox.pw/">磁力狐</a>一般电影什么的都可以找到资源，但是一个视频就好几个G存自己设备上好像太浪费了，一般看完就得删了，下次看还得找磁力继续下载太麻烦。</p>
+<h3 id="Microsoft-OneDrive"><a href="#Microsoft-OneDrive" class="headerlink" title="Microsoft OneDrive"></a>Microsoft OneDrive</h3><p>上网看了一下Microsoft OneDrive可以便宜薅到5T空间的账号四舍五入对于不要钱。这里就不放教程了，可以淘宝买，也可以另寻它路，个人账号的话只有5G的免费空间。注册好后开始安装和配置Rclone</p>
+<h3 id="Rclone-需要Root权限才能挂载"><a href="#Rclone-需要Root权限才能挂载" class="headerlink" title="Rclone 需要Root权限才能挂载"></a>Rclone 需要Root权限才能挂载</h3><p>我都是在Termux安装和挂载云盘到rootfs里的mnt文件夹里才启动proot容器，在容器里好像挂载不了。</p>
+<pre class=" language-bash"><code class="language-bash">pkg <span class="token function">install</span> rclone 
+tsu
+rclone config
+
+Current remotes:
+e<span class="token punctuation">)</span> Edit existing remote
+n<span class="token punctuation">)</span> New remote
+d<span class="token punctuation">)</span> Delete remote
+r<span class="token punctuation">)</span> Rename remote
+c<span class="token punctuation">)</span> Copy remote
+s<span class="token punctuation">)</span> Set configuration password
+q<span class="token punctuation">)</span> Quit config
+e/n/d/r/c/s/q<span class="token operator">></span> n                          //第二步输入n创建新的配置
+name<span class="token operator">></span> 挂载网盘的名称（任意写，中间不能有空格）
+
+Option Storage.
+Type of storage to configure.
+Enter a string value. Press Enter <span class="token keyword">for</span> the default <span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span>.
+Choose a number from below, or <span class="token function">type</span> <span class="token keyword">in</span> your own value.
+ 1 / 1Fichier
+   \ <span class="token string">"fichier"</span>
+ 2 / Alias <span class="token keyword">for</span> an existing remote
+   \ <span class="token string">"alias"</span>
+ 3 / Amazon Drive
+   \ <span class="token string">"amazon cloud drive"</span>
+ 4 / Amazon S3 Compliant Storage Providers including AWS, Alibaba, Ceph, Digital Ocean, Dreamhost, IBM COS, Minio, SeaweedFS, and Tencent COS
+   \ <span class="token string">"s3"</span>
+ 5 / Backblaze B2
+   \ <span class="token string">"b2"</span>
+ 6 / Better checksums <span class="token keyword">for</span> other remotes
+   \ <span class="token string">"hasher"</span>
+ 7 / Box
+   \ <span class="token string">"box"</span>
+ 8 / Cache a remote
+   \ <span class="token string">"cache"</span>
+ 9 / Citrix Sharefile
+   \ <span class="token string">"sharefile"</span>
+10 / Compress a remote
+   \ <span class="token string">"compress"</span>
+11 / Dropbox
+   \ <span class="token string">"dropbox"</span>
+12 / Encrypt/Decrypt a remote
+   \ <span class="token string">"crypt"</span>
+13 / Enterprise File Fabric
+   \ <span class="token string">"filefabric"</span>
+14 / FTP Connection
+   \ <span class="token string">"ftp"</span>
+15 / Google Cloud Storage <span class="token punctuation">(</span>this is not Google Drive<span class="token punctuation">)</span>
+   \ <span class="token string">"google cloud storage"</span>
+16 / Google Drive
+   \ <span class="token string">"drive"</span>
+17 / Google Photos
+   \ <span class="token string">"google photos"</span>
+18 / Hadoop distributed <span class="token function">file</span> system
+   \ <span class="token string">"hdfs"</span>
+19 / Hubic
+   \ <span class="token string">"hubic"</span>
+20 / In memory object storage system.
+   \ <span class="token string">"memory"</span>
+21 / Jottacloud
+   \ <span class="token string">"jottacloud"</span>
+22 / Koofr
+   \ <span class="token string">"koofr"</span>
+23 / Local Disk
+   \ <span class="token string">"local"</span>
+24 / Mail.ru Cloud
+   \ <span class="token string">"mailru"</span>
+25 / Mega
+   \ <span class="token string">"mega"</span>
+26 / Microsoft Azure Blob Storage
+   \ <span class="token string">"azureblob"</span>
+27 / Microsoft OneDrive
+   \ <span class="token string">"onedrive"</span>
+28 / OpenDrive
+   \ <span class="token string">"opendrive"</span>
+29 / OpenStack Swift <span class="token punctuation">(</span>Rackspace Cloud Files, Memset Memstore, OVH<span class="token punctuation">)</span>
+   \ <span class="token string">"swift"</span>
+30 / Pcloud
+   \ <span class="token string">"pcloud"</span>
+31 / Put.io
+   \ <span class="token string">"putio"</span>
+32 / QingCloud Object Storage
+   \ <span class="token string">"qingstor"</span>
+33 / SSH/SFTP Connection
+   \ <span class="token string">"sftp"</span>
+34 / Sia Decentralized Cloud
+   \ <span class="token string">"sia"</span>
+35 / Sugarsync
+   \ <span class="token string">"sugarsync"</span>
+36 / Tardigrade Decentralized Cloud Storage
+   \ <span class="token string">"tardigrade"</span>
+37 / Transparently chunk/split large files
+   \ <span class="token string">"chunker"</span>
+38 / Union merges the contents of several upstream fs
+   \ <span class="token string">"union"</span>
+39 / Uptobox
+   \ <span class="token string">"uptobox"</span>
+40 / Webdav
+   \ <span class="token string">"webdav"</span>
+41 / Yandex Disk
+   \ <span class="token string">"yandex"</span>
+42 / Zoho
+   \ <span class="token string">"zoho"</span>
+43 / http Connection
+   \ <span class="token string">"http"</span>
+44 / premiumize.me
+   \ <span class="token string">"premiumizeme"</span>
+45 / seafile
+   \ <span class="token string">"seafile"</span>
+Storage<span class="token operator">></span>27
+<span class="token comment" spellcheck="true">#这里选27Microsoft OneDrive 回车</span>
+
+Option client_id.
+OAuth Client Id.
+Leave blank normally.
+Enter a string value. Press Enter <span class="token keyword">for</span> the default <span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span>.
+client_id<span class="token operator">></span>
+<span class="token comment" spellcheck="true">#这里不填，直接回车</span>
+
+OAuth Client Secret.
+Leave blank normally.
+Enter a string value. Press Enter <span class="token keyword">for</span> the default <span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span>.
+client_secret<span class="token operator">></span>
+<span class="token comment" spellcheck="true">#不填，继续回车</span>
+
+Option region.
+Choose national cloud region <span class="token keyword">for</span> OneDrive.
+Enter a string value. Press Enter <span class="token keyword">for</span> the default <span class="token punctuation">(</span><span class="token string">"global"</span><span class="token punctuation">)</span>.
+Choose a number from below, or <span class="token function">type</span> <span class="token keyword">in</span> your own value.
+ 1 / Microsoft Cloud Global
+   \ <span class="token string">"global"</span>
+ 2 / Microsoft Cloud <span class="token keyword">for</span> US Government
+   \ <span class="token string">"us"</span>
+ 3 / Microsoft Cloud Germany
+   \ <span class="token string">"de"</span>
+ 4 / Azure and Office 365 operated by 21Vianet <span class="token keyword">in</span> China
+   \ <span class="token string">"cn"</span>
+region<span class="token operator">></span>1
+<span class="token comment" spellcheck="true">#选序号1 global全球</span>
+
+Edit advanced config?
+y<span class="token punctuation">)</span> Yes
+n<span class="token punctuation">)</span> No <span class="token punctuation">(</span>default<span class="token punctuation">)</span>
+y/n<span class="token operator">></span>n
+<span class="token comment" spellcheck="true">#不进行高级配置，选择no默认配置即可</span>
+
+Use auto config?
+ * Say Y <span class="token keyword">if</span> not sure
+ * Say N <span class="token keyword">if</span> you are working on a remote or headless machine
+
+y<span class="token punctuation">)</span> Yes <span class="token punctuation">(</span>default<span class="token punctuation">)</span>
+n<span class="token punctuation">)</span> No
+y/n<span class="token operator">></span>y
+<span class="token comment" spellcheck="true">#继续默认配置</span>
+
+2022/01/14 05:01:39 NOTICE: If your browser doesn't <span class="token function">open</span> automatically go to the following link: http://127.0.0.1:53682/auth?state<span class="token operator">=</span>rI*wUG***1J*nGr*L**S*w
+2022/01/14 05:01:39 NOTICE: Log <span class="token keyword">in</span> and authorize rclone <span class="token keyword">for</span> access
+2022/01/14 05:01:39 NOTICE: Waiting <span class="token keyword">for</span> code<span class="token punctuation">..</span>.
+2022/01/14 05:01:44 NOTICE: Got code
+<span class="token comment" spellcheck="true">#到这里会跳转到浏览器，或者手动复制链接到浏览器登入，登入完成会在浏览器显示</span>
+<span class="token comment" spellcheck="true">#Success!</span>
+<span class="token comment" spellcheck="true">#All done. Please go back to rclone.</span>
+<span class="token comment" spellcheck="true">#再返回终端</span>
+
+Option config_type.
+Type of connection
+Enter a string value. Press Enter <span class="token keyword">for</span> the default <span class="token punctuation">(</span><span class="token string">"onedrive"</span><span class="token punctuation">)</span>.
+Choose a number from below, or <span class="token function">type</span> <span class="token keyword">in</span> an existing value.
+ 1 / OneDrive Personal or Business
+   \ <span class="token string">"onedrive"</span>
+ 2 / Root Sharepoint site
+   \ <span class="token string">"sharepoint"</span>
+   / Sharepoint site name or URL
+ 3 <span class="token operator">|</span> E.g. mysite or https://contoso.sharepoint.com/sites/mysite
+   \ <span class="token string">"url"</span>
+ 4 / Search <span class="token keyword">for</span> a Sharepoint site
+   \ <span class="token string">"search"</span>
+ 5 / Type <span class="token keyword">in</span> driveID <span class="token punctuation">(</span>advanced<span class="token punctuation">)</span>
+   \ <span class="token string">"driveid"</span>
+ 6 / Type <span class="token keyword">in</span> SiteID <span class="token punctuation">(</span>advanced<span class="token punctuation">)</span>
+   \ <span class="token string">"siteid"</span>
+   / Sharepoint server-relative path <span class="token punctuation">(</span>advanced<span class="token punctuation">)</span>
+ 7 <span class="token operator">|</span> E.g. /teams/hr
+   \ <span class="token string">"path"</span>
+config_type<span class="token operator">></span>1
+<span class="token comment" spellcheck="true">#选择序号1</span>
+Drive OK?
+
+Found drive <span class="token string">"root"</span> of <span class="token function">type</span> <span class="token string">"business"</span>
+URL: https://ssxx-my.sharepoint.com/personal/yist_od_yam_ink/Documents
+
+y<span class="token punctuation">)</span> Yes <span class="token punctuation">(</span>default<span class="token punctuation">)</span>
+n<span class="token punctuation">)</span> No
+y/n<span class="token operator">></span>y
+<span class="token comment" spellcheck="true">#y 默认</span>
+
+--------------------
+<span class="token punctuation">[</span>1<span class="token punctuation">]</span>
+<span class="token function">type</span> <span class="token operator">=</span> onedrive
+token <span class="token operator">=</span> <span class="token operator">&amp;</span><span class="token comment" spellcheck="true">#123;"access_token":"*************","expiry":"2022-01-14T00:08:19.327666693Z"&amp;#125;</span>
+drive_id <span class="token operator">=</span> b<span class="token operator">!</span>x**qko**ek-h*KRj*5*bV*D*W0mZ9*ZHq*K94i*jT**ZU*z*S*E*TaIDN**G3**a
+drive_type <span class="token operator">=</span> business
+--------------------
+y<span class="token punctuation">)</span> Yes this is OK <span class="token punctuation">(</span>default<span class="token punctuation">)</span>
+e<span class="token punctuation">)</span> Edit this remote
+d<span class="token punctuation">)</span> Delete this remote
+y/e/d<span class="token operator">></span>
+<span class="token comment" spellcheck="true">#y 默认</span>
+
+Current remotes:
+Name                 Type
+<span class="token operator">==</span><span class="token operator">==</span>                 <span class="token operator">==</span><span class="token operator">==</span>
+Microsoft OneDrive   onedrive
+
+e<span class="token punctuation">)</span> Edit existing remote
+n<span class="token punctuation">)</span> New remote
+d<span class="token punctuation">)</span> Delete remote
+r<span class="token punctuation">)</span> Rename remote
+c<span class="token punctuation">)</span> Copy remote
+s<span class="token punctuation">)</span> Set configuration password
+q<span class="token punctuation">)</span> Quit config
+e/n/d/r/c/s/q<span class="token operator">></span>q
+<span class="token comment" spellcheck="true">#q 退出</span>
+
+rclone <span class="token function">mount</span> 这里填写第二步创建名称:/ 这里填写网盘挂载到的文件夹名称 --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000 
+
+Fatal error: failed to <span class="token function">mount</span> FUSE fs: fusermount: signal: bad system call
+<span class="token comment" spellcheck="true">#提示缺少fusermont依赖</span>
+</code></pre>
+<p>点击下载<a href="../../../data/fusermont">Fusermont</a>，解压，拷贝到<br><code>/data/data/com.termux/files/usr/bin/</code><br>文件夹里</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">chmod</span> +x /data/data/com.termux/files/usr/bin/fusermont
+
+rclone <span class="token function">mount</span> Microsoft:/ ./mydir/ --copy-links --no-gzip-encoding --no-check-certificate --allow-other --allow-non-empty --umask 000 
+
+加上 --daemon 可以后台静默运行
+</code></pre>
+<p>查看云盘文件是否出现在文件夹里<code>ls ./mydir</code><br> 这篇记录大致完成了，用aria2下载的文件用mv 移动到挂载到文件夹里等待上传就行了。</p>
+</p></div><div class="share"><span>分享到</span>&nbsp;<span class="soc"><a href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank" class="fa fa-bookmark"></a></span><span class="soc"><a href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));" class="fa fa-weibo"></a></span><span class="soc"><a target="_blank" rel="noopener" href="http://twitter.com/home?status=http://example.com/2022/01/14/用Aria+AriaNg+OneDrive+Rclone做资源盘/%20歸海.%20Rclone+OneDrive+Aria2" class="fa fa-twitter"></a></span></div><div class="pagination"><p class="clearfix"><span>&nbsp;</span><span class="next pagbuttons"><a role="navigation" href="/hexo/2022/01/11/alpine%E6%B2%99%E7%9B%92/" title="在手机里安装alpine做服务器">下一篇: 在手机里安装alpine做服务器&nbsp;<i class="fa fa-angle-double-right"></i></a></span></p></div></div></div></div><div class="visible-xs site-bottom-footer"><footer><p>&copy;&nbsp;2022&nbsp;<a target="_blank" href="http://example.com" rel="noopener noreferrer">Yi</a></p><p>Theme&nbsp;<a target="_blank" href="https://github.com/SumiMakito/hexo-theme-typography" rel="noopener noreferrer">Typography</a>&nbsp;by&nbsp;<a target="_blank" href="https://www.keep.moe" rel="noopener noreferrer">Makito</a></p><p>Proudly published with&nbsp;<a target="_blank" href="https://hexo.io" rel="noopener noreferrer">Hexo</a></p></footer></div></div></div></div><script src="/hexo/js/jquery-3.1.0.min.js"></script><script src="/hexo/js/bootstrap.min.js"></script><script src="/hexo/js/jquery-migrate-1.2.1.min.js"></script><script src="/hexo/js/jquery.appear.js"></script><script src="/hexo/js/google-analytics.js"></script><script src="/hexo/js/typography.js"></script></body></html>
