@@ -8,7 +8,7 @@
       <link href="/2022/03/13/wyyyy/"/>
       <url>/2022/03/13/wyyyy/</url>
       
-        <content type="html"><![CDATA[<p>Termux挂网易云脚本</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://f-droid.org/zh_Hans/packages/com.termux/">点这进F-Deoid下载Termux</a><br>安装好后打开Termux软件<br>执行下面指令更新源，安装python，安装git</p><p>‘’’bash<br>apt update -y<br>apt install -y python openssh git<br>‘’’</p><p>拉取库到本地</p><p>‘’’bash<br>git clone <a href="https://github.com/chen310/NeteaseCloudMusicTasks.git">https://github.com/chen310/NeteaseCloudMusicTasks.git</a><br>‘’’<br>切换到项目目录</p><p>‘’’bash<br>cd NeteaseCloudMusicTasks<br>‘’’<br>然后安装依赖</p><p>‘’’bash<br>pip install -r requirements.txt<br>‘’’</p><h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>首先将 config.example.json 文件复制为 config.json 文件</p><p>‘’’bash<br>cp config.example.json config.json<br>‘’’</p><p>然后对配置文件 config.json 进行修改。<br>运行<br>‘’’bash<br>python3 index.py<br>‘’’</p>]]></content>
+        <content type="html"><![CDATA[<p>Termux挂网易云脚本</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://f-droid.org/zh_Hans/packages/com.termux/">点这进F-Deoid下载Termux</a><br>安装好后打开Termux软件<br>执行下面指令更新源，安装python，安装git</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update -y</span><br><span class="line">apt install -y python openssh git</span><br></pre></td></tr></table></figure><p>拉取库到本地</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/chen310/NeteaseCloudMusicTasks.git</span><br></pre></td></tr></table></figure><p>切换到项目目录</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> NeteaseCloudMusicTasks</span><br></pre></td></tr></table></figure><p>然后安装依赖</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure><h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>首先将 config.example.json 文件复制为 config.json 文件</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp config.example.json config.json</span><br></pre></td></tr></table></figure><p>然后对配置文件 config.json 进行修改。<br>运行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 index.py</span><br></pre></td></tr></table></figure>]]></content>
       
       
       
@@ -97,15 +97,15 @@
       
         <tags>
             
-            <tag> Termux </tag>
-            
             <tag> Linux </tag>
             
-            <tag> 原创 </tag>
+            <tag> Termux </tag>
             
             <tag> Alpine </tag>
             
             <tag> 服务器 </tag>
+            
+            <tag> 原创 </tag>
             
         </tags>
       
@@ -124,13 +124,13 @@
       
         <tags>
             
+            <tag> 原创 </tag>
+            
             <tag> Android </tag>
             
             <tag> 刷机教程 </tag>
             
             <tag> 类原生 </tag>
-            
-            <tag> 原创 </tag>
             
         </tags>
       
