@@ -4,21 +4,48 @@
   
     
     <entry>
-      <title>手机刷机通用教程</title>
-      <link href="/2022/02/01/shuajijiaocheng/"/>
-      <url>/2022/02/01/shuajijiaocheng/</url>
+      <title>Termux挂网易云脚本</title>
+      <link href="/2022/03/13/wyyyy/"/>
+      <url>/2022/03/13/wyyyy/</url>
       
-        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先介绍一下什么是刷机，每个手机都有一个属于厂商自己定制的系统又指Rom，小米的Miui，华为的Emui，魅族的Flyme，OPPO的ColorOS，这些都是来自Google谷歌开源项目<code>AOSP</code>演化来的，刷机就是在当前设备上安装上其它品牌的系统来达到目的。这里强调一遍双清抹除数据，恢复出厂设置，那不能叫刷机。</p><h2 id="刷机种类"><a href="#刷机种类" class="headerlink" title="刷机种类"></a>刷机种类</h2><p>上面我们知道什么是刷机，那么如何开始给设备刷机，有几种方式呢？<br>我们在使用手机都会有系统更新通知，下载更新，那么这种方式叫 <code>卡刷</code> 也是最常用的刷机手段，刷机包通常为zip文件，这是第一种</p><p>手机在使用过程中系统损坏了，在售后时工程人员用电脑给手机刷机，用数据线连接充电接口的叫 <code>线刷</code> 刷机包文件通常为tgz格式，这也就是第二种的刷机方式</p><p>以上两种都是比较常见的手段</p><p>第三种刷机方式叫<code>GSI</code>全称是 Generic System Image，翻译过来就是「通用系统镜像」，这个概念来源于 Project Treble。自从 Android 8 引入 Project Treble 后，手机的系统文件和底层的厂商硬件驱动开始分离存放，更新系统时只需要更新系统文件即可。</p><h2 id="解锁设备"><a href="#解锁设备" class="headerlink" title="解锁设备"></a>解锁设备</h2><p>了解以上知识就开始真正意义上的刷机实践了，厂商都会给设备上一个叫 <code>bootloader</code>的设备锁，需要按照官方的方式进行解锁，不然没有刷写权限刷不了机</p><p>这里以小米手机为例</p><div class="note info flat"><p>需要用到 Windows系统</p></div><ol><li><p>打开【设置】，【我的设备】里点击【全部参数】，连续点击【MIUI版本】几次，直到出现【你已处于开发者模式】提示</p></li><li><p>【更多设置】里点击【开发者选项】，点击【设备解锁状态】。（2015年之后的小米设备才会加锁，之前的并没有）</p></li><li><p>解锁首先要绑定的你的小米账号，点击【绑定账号和设备】（这个有的账号要绑定后三天才能解锁，有的绑定后马上就能解锁，具体以自己的情况为准</p></li><li><p>登录自己的小米账号。</p></li><li><p>登录成功。</p></li><li><p>返回再次点击【绑定账号和设备】的时候显示已经绑定，说明绑定成功。</p></li><li><p>浏览器打开小米手机解锁网站 <a href="http://www.miui.com/unlock/index.html">网址</a> 点击【立即解锁】</p></li><li><p>点击【解锁工具下载】，下载解锁工具。</p></li><li><p>下载后解压，运行程序。</p></li><li><p>点击【同意】。</p></li><li><p>还得再次登录自己的小米账号。</p></li><li><p>当前显示没有连接手机，不要着急，下一步教你进入fastboot连接。</p></li><li><p>在关机状态下同时按住音量减键和电源键，直到出现如下界面，进入fastboot。此时用数据线连接手机和电脑。</p></li><li><p>连接好后电脑会出现【已连接手机】，点击【解锁】。</p></li><li><p>点击【确认解锁】。</p></li><li><p>点击【确认解锁】。</p></li><li><p>正在解锁。</p></li><li><p>解锁完成，会自动重启手机。</p></li></ol><h2 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h2><p>这个 <code>Recovery</code> 就是一个恢复模式，每个手机都有系统模式，<code>Fastboot</code> 和 <code>Recovery</code> 这三种模式，官方系统升级也是用的这个模式，可以借用这个恢复出厂设置，或者链接电脑刷机。但官方自带的有局限，做不了其它，刷不了没验证的第三方系统，所以我们得找到属于自己设备的第三方<code>Recovery</code><br>首先确认一下要刷机设备代号<br><a href="https://twrp.me/Devices/">TWRP第三方Rec设备列表</a><br><a href="https://orangefox.download/zh-CN">橙狐第三方Rec设备列表</a><br>找到之后下载下来 <code>img</code> 格式文件</p><div class="note info flat"><p>以 Windows系统为例</p></div><ol><li><p>打开电脑 <code>Ctrl + R</code> 输入cmd回车打开终端</p></li><li><p>把数据线和电脑连接上，把刚刚下载的文件移动到电脑桌面</p></li><li><p>把手机重启至Fastboot模式（手机关机状态下 开机按钮+下音量按钮，按住直到屏幕看见小兔子维修安卓机器人）然后输入下面的指令后直接回车等待（每一条回车一次）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fastboot flash recovery 把文件拖到终端来</span><br><span class="line"></span><br><span class="line">fastboot reboot recovery</span><br><span class="line"><span class="comment">#有些机型没用，我建议是回车后按住音量上按钮，因为如果没有重启到recovery进入系统后第三方rec可能会恢复回官方，那么就得重新刷一遍rec模式</span></span><br></pre></td></tr></table></figure></li><li><p>刷入Magisk（脸谱/面具/Root）简单介绍一下面具</p><div class="note simple"><p>由于它是通过启动时在 boot 中创建钩子，把 /data/magisk.img 挂载到 /magisk，构建出一个在 system 基础上能够自定义替换，增加以及删除的文件系统，所有操作都在启动的时候完成，实际上并没有对 /system 分区进行修改（即 systemless 接口，以不触动 /system 的方式修改 /system）。</p></div><p>功能</p><div class="note simple"><p>集成 root（MagiskSU）<br>root 和 Magisk 的日志功能<br>Magisk Hide（隐藏 Magisk 的 root 权限，针对 Snapchat、Android Pay、PokémonGo、Netflix 等）<br>为广告屏蔽应用提供 systemless hosts 支持<br>通过 SafetyNet 检查<br>Magisk 功能模块</p></div><p>在电脑上把<a href="https://yiyuwen.lanzouo.com/invxorpq3ne">Magisk23(2300).zip</a>下载到电脑桌面上<br>如果你只是想获取root权限，那么移动到手机里后用twrp找到这个文件点进去刷入重启即可获得至高无上的权限，如果你还是想刷机那么接着往下看…</p></li></ol><h2 id="卡刷-寻找适合自己的Rom"><a href="#卡刷-寻找适合自己的Rom" class="headerlink" title="卡刷-寻找适合自己的Rom"></a>卡刷-寻找适合自己的Rom</h2><p>寻找刷机包，下载刷机包是需要一段难熬的时间的，所以你可以把手机打开以免收不到消息。</p><div class="note warning no-icon flat"><p>一定要下载和自己手机<mark class="hl-label red"><strong>设备代号</strong></mark> 一致的包！<br>一定要下载和自己手机<mark class="hl-label red"><strong>设备代号</strong></mark> 一致的包！<br>一定要下载和自己手机<mark class="hl-label red"><strong>设备代号</strong></mark> 一致的包！<br>下列没有排名排列，萝卜白菜各有所爱，看个人喜爱</p></div><p><a href="https://www.lineageos.org/">Lineage OS</a><mark class="hl-label green">简洁稳定</mark>   <mark class="hl-label blue">镜像站</mark> </p><p><a href="https://pic.baike.soso.com/ugc/baikepic2/0/20170907041906-444925748.jpg/800">Arrow</a><mark class="hl-label green">简洁稳定</mark>   <mark class="hl-label blue">镜像站</mark> </p><p><a href="https://crdroid.net/">Crdroid</a><mark class="hl-label orange">多样性</mark>  <mark class="hl-label purple">高定制</mark> </p><p><a href="https://www.droidontime.com/">Dot OS</a><mark class="hl-label orange">多样性</mark>  <mark class="hl-label purple">高定制</mark> </p><p><a href="https://download.pixelexperience.org/">Pixelexperience</a><mark class="hl-label green">简洁稳定</mark>  </p><p><a href="https://havoc-os.com/download">Havoc</a><mark class="hl-label green">简洁稳定</mark> <br>用电脑下载这样可以省去传包的过程！</p><h2 id="抹除设备"><a href="#抹除设备" class="headerlink" title="抹除设备"></a>抹除设备</h2><div class="note warning flat"><p>温馨提示: 你应该知道自己在做什么！</p></div><div class="note warning flat"><p>接下来会抹除设备上的所有信息，包括微信消息，通讯录联系人，相册图片，截图，APP等等…</p></div><div class="note warning flat"><p>确保已经对设备上重要数据进行备份！再来进行下面的步骤！</p></div><ol><li><p>首先手机重启到Recovery模式。</p></li><li><p>设置语言 <strong>Set the language</strong></p></li><li><p>有锁屏密码就输入锁屏密码，没有锁屏密码就跳过</p></li><li><p><img src="http://www.romleyuan.com:9001/attach/photo/46b4481b3d264c82b732424c94f57b2d.jpg" alt="清除数据"></p></li><li><p><img src="http://www.romleyuan.com:9001/attach/photo/5e5b7019085f4cd1a5ba0885496e937f.jpg" alt="格式化Data分区"></p></li><li><p>然后回到菜单，点重启👉🏻Recovery</p></li><li><p>等手机重启到了TWRP后，打开电脑把桌面上的 刷机包 Magisk 复制到手机里，然后刷入系统包，再刷入面具，最后重启👉🏻系统，不出意外五分钟内手机就会开机成功，如果一直卡开机画面，二十分钟还没进系统就手动强制重启一下（有格式化数据，类原生系统一般不会出现这种情况）自此，卡刷教程就这样结束了，下面我们讲线刷。</p></li></ol><h2 id="线刷"><a href="#线刷" class="headerlink" title="线刷"></a>线刷</h2><p>一般情况下我们是用不到线刷的，不仅仅是因为不方便，还因为第三方系统少，和数据线不稳定容易黑砖。如果手机卡刷已经刷不了，或者recovery模式进不去，那么只能进行线刷。</p><mark class="hl-label red">首先还是要备份数据的</mark> <mark class="hl-label red">重要的事情，我再说一遍</mark> <p>还是以Windows为例，下载下面两样东西<br><strong>小米手机</strong><br><a href="http://bigota.d.miui.com/tools/MiFlash2018-5-28-0.zip">线刷工具MiFlash2018-5-28-0.zip</a>解压后打开</p><p><a href="http://www.miui.com/shuaji-393.html">小米线刷下载地址</a><br><a href="https://xiaomirom.com/">小米官方下载地址2</a><br>下载注意看文件后缀是否为<mark class="hl-label green">.tgz</mark> 下载完成后解压，打开刷机工具，安装驱动<br><img src="https://thumb.jfcdns.com/thumb/n33150p31lxq15fd214/16f5e86d9534a51e_460_0.jpeg" alt="安装驱动"><br>然后将手机重启到Fastboot，数据线连接电脑<br>点左上角浏览 找到刚刚解压好的系统文件夹 然后把右下角的 清除并锁上 改为清除所有就行，避免刷完机bootloader被锁上了，到时候又得解锁，然后点刷机，之后尽量不要去碰手机和数据线，确保安全刷机，等待手机自动重启就行了。</p><h2 id="线刷-Gsi-Sgsi"><a href="#线刷-Gsi-Sgsi" class="headerlink" title="线刷-Gsi Sgsi"></a>线刷-Gsi Sgsi</h2><div class="note warning no-icon flat"><p>通刷是最不可取的方式<br>无论是gsi还是sgsi都是最容易刷不开机的<br>小白请勿尝试</p></div><ol><li><p>通刷包有很多种选择，也是由不同的国外大神负责维护，下面贴上几乎所有 gsi 通刷包（包括官方和非官方）的集合链接，请各位自行选择，选择包的种类<a href="https://wap.sogou.com/ntcweb?rcer=Q9PEmkJaYYK0AK2xc&dp=1&bid=sogou-mobb-f04c1064af05871d&is_per=0&pno=1&clk=2&vrid=30000909&wml=0&linkid=0&pcurl=https://www.irom.net/post/9.html&clickTime=1643682058230&clickType=click&bilog=vrcid:title.ec27d24&mcv=81&pcl=242,735&sed=0&ml=15&sct=73&url=https://github.com/phhusson/treble_experimentations/wiki/Generic-System-Image-(GSI)-list">下载地址</a></p></li><li><p> 需要下载一个<code>Treble Check</code>的软件用来检测<a class="btn-beautify green larger" href="https://yiyuwen.lanzouo.com/iOHe2zgubbi/"   title="蓝奏云下载"><i class="far fa-hand-point-right"></i><span>蓝奏云下载</span></a></p></li><li><p>打开软件查看检测结果，只有当 Project Treble 通过检测才表明此手机可以刷 gsi 镜像包。接着看第二项 Seamless System Updates，如果显示 A/B 即表明你应该选择的通刷包后缀名为 A/B 或者 AB 。若检测结果显示 A only，即表明你应该选择的通刷包后缀名为 A 或者 A only。 </p></li><li><p>上网查找你所使用手机的架构名称，例如arm64<br> 出厂版本是安卓9.0版本的手机（第三步关键，凡是出厂版本为 9.0 的手机，无论 Seamless System Updates 检测结果如何，通刷包的版本一律选择 A/B 或 AB。）</p></li><li><p>网络下载符合所使用机型的 vbmeta.img, 并将其拷贝到 platform-tools 文件夹内</p></li><li><p>adb依次输入以下命令 </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img fastboot flash system &lt;gsi-img&gt; fastboot -w fastboot reboot</span><br></pre></td></tr></table></figure></li></ol><h2 id="卡刷-Gsi"><a href="#卡刷-Gsi" class="headerlink" title="卡刷-Gsi"></a>卡刷-Gsi</h2><ol><li><p>自行刷入第三方 rec 自行下载好 gsi 解压后得到 img 镜像包。要使用官方稳定ROM作为底包，不要使用开发版和任何官改版。</p></li><li><p>手机备份好重要资料后，重启至第三方 recovery TWRP, 并在高级中选择取消强制加密并选中两项后确认。 主页面选择清除，滑动下方滑块进行双清即可，不要自作多情，双清足够。 </p></li><li><p>返回主页面，选择安装后，点击右下方刷入镜像，找到拷贝到手机里的img镜像包，选择后刷入System镜像分区内，等待结束后再次双清即开机。</p></li></ol><h2 id="修复Gis通病"><a href="#修复Gis通病" class="headerlink" title="修复Gis通病"></a>修复Gis通病</h2><ol><li>修复自动亮度失效 </li></ol><p>下载 framework-res__auto_generated_rro.apk</p><p>用re管理器将其复制到 vendor/overlay 文件夹 </p><p>修改 overlay 文件夹权限为 rwxr-xr-x </p><p>手机打开 Termux 输入以下命令 </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount -w /vendor chcon u:object_r:vendor_overlay_file:s0 /vendor/overlay;chcon u:object_r:vendor_overlay_file:s0 /vendor/overlay/framework-res__auto_generated_rro.apk</span><br></pre></td></tr></table></figure><ol start="2"><li>修复扬声器失真<br>手机下载 Root Explorer<br>删除两个文件夹<br>/system/vendor/lib/soundfx<br>/system/vendor/lib64/soundfx </li></ol><p>改变 vendor 文件夹的权限为 rw-r–r– </p><p>重启手机 </p><ol start="3"><li>修复屏幕状态栏圆角<br>adb 输入以下命令(最后的数字根据自己喜好任意修改)<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings put secure sysui_rounded_content_padding 20</span><br></pre></td></tr></table></figure></li></ol><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>至此这篇文章就结束了，讲述了三种刷机方式，希望可以通过这篇文章给你带来有用的知识</p>]]></content>
+        <content type="html"><![CDATA[<p>Termux挂网易云脚本</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://f-droid.org/zh_Hans/packages/com.termux/">点这进F-Deoid下载Termux</a><br>安装好后打开Termux软件<br>执行下面指令更新源，安装python，安装git</p><p>‘’’bash<br>apt update -y<br>apt install -y python openssh git<br>‘’’</p><p>拉取库到本地</p><p>‘’’bash<br>git clone <a href="https://github.com/chen310/NeteaseCloudMusicTasks.git">https://github.com/chen310/NeteaseCloudMusicTasks.git</a><br>‘’’<br>切换到项目目录</p><p>‘’’bash<br>cd NeteaseCloudMusicTasks<br>‘’’<br>然后安装依赖</p><p>‘’’bash<br>pip install -r requirements.txt<br>‘’’</p><h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>首先将 config.example.json 文件复制为 config.json 文件</p><p>‘’’bash<br>cp config.example.json config.json<br>‘’’</p><p>然后对配置文件 config.json 进行修改。<br>运行<br>‘’’bash<br>python3 index.py<br>‘’’</p>]]></content>
       
       
       
         <tags>
             
-            <tag> Android </tag>
+            <tag> 网易云音乐 </tag>
             
-            <tag> 刷机教程 </tag>
+            <tag> 签到积分 </tag>
             
-            <tag> 类原生 </tag>
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mtk手机深度刷机教程</title>
+      <link href="/2022/01/29/mtkshengshua/"/>
+      <url>/2022/01/29/mtkshengshua/</url>
+      
+        <content type="html"><![CDATA[<p><strong>这个教程只支持MTK（联发科）处理器的机子<br>如果是高通骁龙的，可以不用看了</strong></p><h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天下午想给手上的Redmi Note10 Pro搞个Magisk_root 所以想给手机降级。进Fastboot用的官方Miflash刷机不到两分钟出现红色错误，手机也随之嗝屁了，顿时间整个人都不好了，逐一测试了Recovery和Fastboot模式都没有反应，那感觉五雷轰顶啊！在我极度惊恐之下，尝试寻找各种办法后，似乎找到了救命稻草 SmartPhone-FlashTool 但是过程并不顺利，电脑上虽然有Mtk的com5端口显示，但很快就会消失不见，不断重复这个类似插拔的过程，真的非常让人后怕。</p><p>于是经过我的不懈努力才知道原来端口不稳定是正常的，需要借助MTK Auth Bypass Tool软件才能稳定端口连接，再进行深度刷机。</p><h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><p>不同处理器有不同的深度刷机模式<br>联发科：MTK_USB-Port_V1633（COM5)</p><p>高通骁龙：Qualcomm_HS-USB_QDloaderbl_9008</p><p>海思麒麟：HUAWEI_USB_1.0(COM3)<br>如果你手机连接电脑出现以上端口，则说明手机当前处在深刷模式。</p><div class="note success no-icon flat"><p>如果你之前没有接触过这种刷机方式，那一定要仔细看看。</p><p>★如何免拆机按键进深刷：依次尝试长按三键、长按电源键和音量减、长按电源键和音量加直到出端口。手机任意状态都可以直接按。其实进深刷的方法都差不了多少。</p><p>★怎么去判断是否进深刷以及能否刷机：有人刷机总是喜欢盯着手机看，这里就不必了，我们主要是看电脑设备管理器显示的端口来判断手机的状态，手机一直是黑屏的，什么也不会显示。电脑提前打开设备管理器，手机按照上述方法进深刷，注意听电脑提示音以及观察设备管理器的反应。如果电脑有提示音，设备管理器在端口COM和LPT一项里刷新出“MediaTek USB Port”端口，则深刷模式连接正常，可以刷机。如果电脑有提示音但没有“MediaTek USB Port”端口，而是出现未知设备之类的，说明你电脑需要补MTK驱动(链接下面给)。如果有提示音，但消息提示无法识别的USB设备，你可能需要重新进深刷或者更换数据线。如果电脑压根没反应，你需要检</p></div><ol><li><p>首先准备一根原厂的充电线（至少需要保证稳定）</p></li><li><p>一台电脑（最好是W10系统，我就是在这个环境实践的）</p></li><li><p>下载好救砖设备的线刷包（卡刷包不能用哦）还有MiflashPro，MTK Auth Bypass Tool，LibUSB驱动，MTK驱动</p></li></ol><a class="btn-beautify blue larger" href="https://xiaomirom.com/"   title="小米官方Rom下载"><i class="far fa-hand-point-right"></i><span>小米官方Rom下载</span></a><p>** 请务必下载和当前手机系统版本相同的线刷包，小版本没关系，至少安卓版本要相同，否则可能不开机和丢失IMEI！对于因为降级而黑砖的，刷降级之前的版本即可开机。 **</p><a class="btn-beautify blue larger" href="https://kamiui.ml/E52shuaji/03-工具软件/MiFlash/MiFlash_Pro_v6.3.318.42_EN_Setup.zip"   title="Miflashpro刷机工具下载"><i class="far fa-hand-point-right"></i><span>Miflashpro刷机工具下载</span></a><p>MiflashPro版本过低可能导致刷机失败，请升级到最新版。如果文中链接失效，可以随便百度一个然后升级到最新版也是一样的。</p><a class="btn-beautify blue larger" href="https://yiyuwen.lanzouo.com/b00pdmwra"   title="LibUSB蓝奏云下载密码1122"><i class="far fa-hand-point-right"></i><span>LibUSB蓝奏云下载密码1122</span></a><p>安装LibUSB驱动，一路Next</p><a class="btn-beautify blue larger" href="https://yiyuwen.lanzouo.com/i3iSk001s9la"   title="MTK识别驱动下载"><i class="far fa-hand-point-right"></i><span>MTK识别驱动下载</span></a><p>MTK驱动（vivo的驱动推荐装一下，有的电脑没有这个驱动）</p><p>完成上面所以后：<br>先打开设备管理器，点开端口，然后手机连接电脑，注意看设备管理器端口，如果有闪过MTK端口就可以，说明可以正常连接<br><img src="https://gitee.com/yits/mypic/raw/master/2022/02/14/980.jpg" alt="设备管理器"></p><p>如果没有，检查驱动，数据线，手机，电脑插口，系统等等…..</p><p>打开MiFlashPro软件</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/14/Screenshot_20220214-010030_1.png" alt="miflashpro"></p><p>点击上方SP Flash</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/14/Scr098.png" alt="图片"></p><p>打开软件后点击左上角的Options里勾掉“Check DA”<br>回到桌面把手机线刷包解压到自己喜欢的目录，然后记住文件位置</p><p>点击第二个choose，在你解压后的的线刷包里找线刷包的images文件夹里，选择MTxxxx_Android_scatter.txt</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/14/Screenshot_201.png" alt="图片"></p><p>选好后就是这个样子，第一个choose点开一般默认会跳到所在目录，正常情况选择下图这个即可，如果不行就去刷机包目录下面找DA开头bin结尾的文件</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/14/Screenshot_2022029.png" alt="图片"></p><p>接着打开MTK Bypass</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/14/7478.png" alt="图片"></p><p>右上方选择一下你手机的处理器，果里面没有你手机的处理器，可以选择AUTO，然后点击BYPASS。杀软可能拦截，请放行。如果中间出现了红色报错，就重新点击BYPASS，再进一次重试。直到没有报错。我试了好几次Note10Pro一直都是错误，端口也一如既往的跳动，可能真的不支持。</p><p>于是我用了其它的软件“MTK Auth Bypass ToolV20”</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/14/77455888.png" alt="图片"></p><a class="btn-beautify blue larger" href="https://yiyuwen.lanzouo.com/idxiC0038u9g"   title="MTK_Auth_Bypass_ToolV20下载"><i class="far fa-hand-point-right"></i><span>MTK_Auth_Bypass_ToolV20下载</span></a><p>打开MTKAuthBypassTool软件，点左下角Disable Auth 手机按住音量上下键插入数据线，如果设备管理器有mtk端口并且不会一闪而过表示成功了</p><p>打开后台的SP flash tool软件点击Download，先是一条红色进度条DA验证，后面为黄色刷入各个分区直到最后一个绿色钩子就代表深刷成功了。</p><p>长安电源键查看是否可以开机，如果不行就去把电池排线扣了，再按上长按电源键开机。</p><p>深刷过后的机子，Bootloader都是上锁了的，需要重新解锁。</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/15/IMG_2022-02-13-21-16-18-458.jpg" alt="图片"></p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/15/wx_camera_1644758251569.jpg" alt="图片"></p><p>最后成功的让手机开机了，耗费力三四个小时，让一个没有任何反应的手机变得栩栩如生。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 救砖 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 刷机 </tag>
+            
+            <tag> mtk </tag>
+            
+            <tag> 救砖 </tag>
             
         </tags>
       
@@ -38,6 +65,14 @@
         <tags>
             
             <tag> Linux </tag>
+            
+            <tag> 原创 </tag>
+            
+            <tag> aria2 </tag>
+            
+            <tag> 下载器 </tag>
+            
+            <tag> 网盘挂载 </tag>
             
         </tags>
       
@@ -62,7 +97,40 @@
       
         <tags>
             
+            <tag> Termux </tag>
+            
             <tag> Linux </tag>
+            
+            <tag> 原创 </tag>
+            
+            <tag> Alpine </tag>
+            
+            <tag> 服务器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>小米手机刷机通用教程</title>
+      <link href="/2021/06/06/shuajijiaocheng/"/>
+      <url>/2021/06/06/shuajijiaocheng/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先介绍一下什么是刷机，每个手机都有一个属于厂商自己定制的系统又指Rom，小米的Miui，华为的Emui，魅族的Flyme，OPPO的ColorOS，这些都是来自Google谷歌开源项目<code>AOSP</code>演化来的，刷机就是在当前设备上安装上其它品牌的系统来达到目的。这里强调一遍双清抹除数据，恢复出厂设置，那不能叫刷机。</p><h2 id="刷机种类"><a href="#刷机种类" class="headerlink" title="刷机种类"></a>刷机种类</h2><p>上面我们知道什么是刷机，那么如何开始给设备刷机，有几种方式呢？<br>我们在使用手机都会有系统更新通知，下载更新，那么这种方式叫 <code>卡刷</code> 也是最常用的刷机手段，刷机包通常为zip文件，这是第一种</p><p>手机在使用过程中系统损坏了，在售后时工程人员用电脑给手机刷机，用数据线连接充电接口的叫 <code>线刷</code> 刷机包文件通常为tgz格式，这也就是第二种的刷机方式</p><p>以上两种都是比较常见的手段</p><p>第三种刷机方式叫<code>GSI</code>全称是 Generic System Image，翻译过来就是「通用系统镜像」，这个概念来源于 Project Treble。自从 Android 8 引入 Project Treble 后，手机的系统文件和底层的厂商硬件驱动开始分离存放，更新系统时只需要更新系统文件即可。</p><h2 id="解锁设备"><a href="#解锁设备" class="headerlink" title="解锁设备"></a>解锁设备</h2><p>了解以上知识就开始真正意义上的刷机实践了，厂商都会给设备上一个叫 <code>bootloader</code>的设备锁，需要按照官方的方式进行解锁，不然没有刷写权限刷不了机</p><p>这里以小米手机为例</p><div class="note info flat"><p>需要用到 Windows系统</p></div><ol><li><p>打开【设置】，【我的设备】里点击【全部参数】，连续点击【MIUI版本】几次，直到出现【你已处于开发者模式】提示</p></li><li><p>【更多设置】里点击【开发者选项】，点击【设备解锁状态】。（2015年之后的小米设备才会加锁，之前的并没有）</p></li><li><p>解锁首先要绑定的你的小米账号，点击【绑定账号和设备】（这个有的账号要绑定后三天才能解锁，有的绑定后马上就能解锁，具体以自己的情况为准</p></li><li><p>登录自己的小米账号。</p></li><li><p>登录成功。</p></li><li><p>返回再次点击【绑定账号和设备】的时候显示已经绑定，说明绑定成功。</p></li><li><p>浏览器打开小米手机解锁网站 <a href="http://www.miui.com/unlock/index.html">网址</a> 点击【立即解锁】</p></li><li><p>点击【解锁工具下载】，下载解锁工具。</p></li><li><p>下载后解压，运行程序。</p></li><li><p>点击【同意】。</p></li><li><p>还得再次登录自己的小米账号。</p></li><li><p>当前显示没有连接手机，不要着急，下一步教你进入fastboot连接。</p></li><li><p>在关机状态下同时按住音量减键和电源键，直到出现如下界面，进入fastboot。此时用数据线连接手机和电脑。</p></li><li><p>连接好后电脑会出现【已连接手机】，点击【解锁】。</p></li><li><p>点击【确认解锁】。</p></li><li><p>点击【确认解锁】。</p></li><li><p>正在解锁。</p></li><li><p>解锁完成，会自动重启手机。</p></li></ol><h2 id="Recovery"><a href="#Recovery" class="headerlink" title="Recovery"></a>Recovery</h2><p>这个 <code>Recovery</code> 就是一个恢复模式，每个手机都有系统模式，<code>Fastboot</code> 和 <code>Recovery</code> 这三种模式，官方系统升级也是用的这个模式，可以借用这个恢复出厂设置，或者链接电脑刷机。但官方自带的有局限，做不了其它，刷不了没验证的第三方系统，所以我们得找到属于自己设备的第三方<code>Recovery</code><br>首先确认一下要刷机设备代号<br><a href="https://twrp.me/Devices/">TWRP第三方Rec设备列表</a><br><a href="https://orangefox.download/zh-CN">橙狐第三方Rec设备列表</a><br>找到之后下载下来 <code>img</code> 格式文件</p><div class="note info flat"><p>以 Windows系统为例</p></div><ol><li><p>打开电脑 <code>Ctrl + R</code> 输入cmd回车打开终端</p></li><li><p>把数据线和电脑连接上，把刚刚下载的文件移动到电脑桌面</p></li><li><p>把手机重启至Fastboot模式（手机关机状态下 开机按钮+下音量按钮，按住直到屏幕看见小兔子维修安卓机器人）然后输入下面的指令后直接回车等待（每一条回车一次）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fastboot flash recovery 把文件拖到终端来</span><br><span class="line"></span><br><span class="line">fastboot reboot recovery</span><br><span class="line"><span class="comment">#有些机型没用，我建议是回车后按住音量上按钮，因为如果没有重启到recovery进入系统后第三方rec可能会恢复回官方，那么就得重新刷一遍rec模式</span></span><br></pre></td></tr></table></figure></li><li><p>刷入Magisk（脸谱/面具/Root）简单介绍一下面具</p><div class="note simple"><p>由于它是通过启动时在 boot 中创建钩子，把 /data/magisk.img 挂载到 /magisk，构建出一个在 system 基础上能够自定义替换，增加以及删除的文件系统，所有操作都在启动的时候完成，实际上并没有对 /system 分区进行修改（即 systemless 接口，以不触动 /system 的方式修改 /system）。</p></div><p>功能</p><div class="note simple"><p>集成 root（MagiskSU）<br>root 和 Magisk 的日志功能<br>Magisk Hide（隐藏 Magisk 的 root 权限，针对 Snapchat、Android Pay、PokémonGo、Netflix 等）<br>为广告屏蔽应用提供 systemless hosts 支持<br>通过 SafetyNet 检查<br>Magisk 功能模块</p></div><p>在电脑上把<a href="https://yiyuwen.lanzouo.com/invxorpq3ne">Magisk23(2300).zip</a>下载到电脑桌面上<br>如果你只是想获取root权限，那么移动到手机里后用twrp找到这个文件点进去刷入重启即可获得至高无上的权限，如果你还是想刷机那么接着往下看…</p></li></ol><h2 id="卡刷-寻找适合自己的Rom"><a href="#卡刷-寻找适合自己的Rom" class="headerlink" title="卡刷-寻找适合自己的Rom"></a>卡刷-寻找适合自己的Rom</h2><p>寻找刷机包，下载刷机包是需要一段难熬的时间的，所以你可以把手机打开以免收不到消息。</p><div class="note warning no-icon flat"><p>一定要下载和自己手机<mark class="hl-label red"><strong>设备代号</strong></mark> 一致的包！<br>一定要下载和自己手机<mark class="hl-label red"><strong>设备代号</strong></mark> 一致的包！<br>一定要下载和自己手机<mark class="hl-label red"><strong>设备代号</strong></mark> 一致的包！<br>下列没有排名排列，萝卜白菜各有所爱，看个人喜爱</p></div><p><a href="https://www.lineageos.org/">Lineage OS</a><mark class="hl-label green">简洁稳定</mark>   <mark class="hl-label blue">镜像站</mark> </p><p><a href="https://pic.baike.soso.com/ugc/baikepic2/0/20170907041906-444925748.jpg/800">Arrow</a><mark class="hl-label green">简洁稳定</mark>   <mark class="hl-label blue">镜像站</mark> </p><p><a href="https://crdroid.net/">Crdroid</a><mark class="hl-label orange">多样性</mark>  <mark class="hl-label purple">高定制</mark> </p><p><a href="https://www.droidontime.com/">Dot OS</a><mark class="hl-label orange">多样性</mark>  <mark class="hl-label purple">高定制</mark> </p><p><a href="https://download.pixelexperience.org/">Pixelexperience</a><mark class="hl-label green">简洁稳定</mark>  </p><p><a href="https://havoc-os.com/download">Havoc</a><mark class="hl-label green">简洁稳定</mark> <br>用电脑下载这样可以省去传包的过程！</p><h2 id="抹除设备"><a href="#抹除设备" class="headerlink" title="抹除设备"></a>抹除设备</h2><div class="note warning flat"><p>温馨提示: 你应该知道自己在做什么！</p></div><div class="note warning flat"><p>接下来会抹除设备上的所有信息，包括微信消息，通讯录联系人，相册图片，截图，APP等等…</p></div><div class="note warning flat"><p>确保已经对设备上重要数据进行备份！再来进行下面的步骤！</p></div><ol><li><p>首先手机重启到Recovery模式。</p></li><li><p>设置语言 <strong>Set the language</strong></p></li><li><p>有锁屏密码就输入锁屏密码，没有锁屏密码就跳过</p></li><li><p><img src="http://www.romleyuan.com:9001/attach/photo/46b4481b3d264c82b732424c94f57b2d.jpg" alt="清除数据"></p></li><li><p><img src="http://www.romleyuan.com:9001/attach/photo/5e5b7019085f4cd1a5ba0885496e937f.jpg" alt="格式化Data分区"></p></li><li><p>然后回到菜单，点重启👉🏻Recovery</p></li><li><p>等手机重启到了TWRP后，打开电脑把桌面上的 刷机包 Magisk 复制到手机里，然后刷入系统包，再刷入面具，最后重启👉🏻系统，不出意外五分钟内手机就会开机成功，如果一直卡开机画面，二十分钟还没进系统就手动强制重启一下（有格式化数据，类原生系统一般不会出现这种情况）自此，卡刷教程就这样结束了，下面我们讲线刷。</p></li></ol><h2 id="线刷"><a href="#线刷" class="headerlink" title="线刷"></a>线刷</h2><p>一般情况下我们是用不到线刷的，不仅仅是因为不方便，还因为第三方系统少，和数据线不稳定容易黑砖。如果手机卡刷已经刷不了，或者recovery模式进不去，那么只能进行线刷。</p><mark class="hl-label red">首先还是要备份数据的</mark> <mark class="hl-label red">重要的事情，我再说一遍</mark> <p>还是以Windows为例，下载下面两样东西<br><strong>小米手机</strong><br><a href="http://bigota.d.miui.com/tools/MiFlash2018-5-28-0.zip">线刷工具MiFlash2018-5-28-0.zip</a>解压后打开</p><p><a href="http://www.miui.com/shuaji-393.html">小米线刷下载地址</a><br><a href="https://xiaomirom.com/">小米官方下载地址2</a><br>下载注意看文件后缀是否为<mark class="hl-label green">.tgz</mark> 下载完成后解压，打开刷机工具，安装驱动<br><img src="https://thumb.jfcdns.com/thumb/n33150p31lxq15fd214/16f5e86d9534a51e_460_0.jpeg" alt="安装驱动"><br>然后将手机重启到Fastboot，数据线连接电脑<br>点左上角浏览 找到刚刚解压好的系统文件夹 然后把右下角的 清除并锁上 改为清除所有就行，避免刷完机bootloader被锁上了，到时候又得解锁，然后点刷机，之后尽量不要去碰手机和数据线，确保安全刷机，等待手机自动重启就行了。</p><h2 id="线刷-Gsi-Sgsi"><a href="#线刷-Gsi-Sgsi" class="headerlink" title="线刷-Gsi Sgsi"></a>线刷-Gsi Sgsi</h2><div class="note warning no-icon flat"><p>通刷是最不可取的方式<br>无论是gsi还是sgsi都是最容易刷不开机的<br>小白请勿尝试</p></div><ol><li><p>通刷包有很多种选择，也是由不同的国外大神负责维护，下面贴上几乎所有 gsi 通刷包（包括官方和非官方）的集合链接，请各位自行选择，选择包的种类<a href="https://wap.sogou.com/ntcweb?rcer=Q9PEmkJaYYK0AK2xc&dp=1&bid=sogou-mobb-f04c1064af05871d&is_per=0&pno=1&clk=2&vrid=30000909&wml=0&linkid=0&pcurl=https://www.irom.net/post/9.html&clickTime=1643682058230&clickType=click&bilog=vrcid:title.ec27d24&mcv=81&pcl=242,735&sed=0&ml=15&sct=73&url=https://github.com/phhusson/treble_experimentations/wiki/Generic-System-Image-(GSI)-list">下载地址</a></p></li><li><p> 需要下载一个<code>Treble Check</code>的软件用来检测<a class="btn-beautify green larger" href="https://yiyuwen.lanzouo.com/iOHe2zgubbi/"   title="蓝奏云下载"><i class="far fa-hand-point-right"></i><span>蓝奏云下载</span></a></p></li><li><p>打开软件查看检测结果，只有当 Project Treble 通过检测才表明此手机可以刷 gsi 镜像包。接着看第二项 Seamless System Updates，如果显示 A/B 即表明你应该选择的通刷包后缀名为 A/B 或者 AB 。若检测结果显示 A only，即表明你应该选择的通刷包后缀名为 A 或者 A only。 </p></li><li><p>上网查找你所使用手机的架构名称，例如arm64<br> 出厂版本是安卓9.0版本的手机（第三步关键，凡是出厂版本为 9.0 的手机，无论 Seamless System Updates 检测结果如何，通刷包的版本一律选择 A/B 或 AB。）</p></li><li><p>网络下载符合所使用机型的 vbmeta.img, 并将其拷贝到 platform-tools 文件夹内</p></li><li><p>adb依次输入以下命令 </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img fastboot flash system &lt;gsi-img&gt; fastboot -w fastboot reboot</span><br></pre></td></tr></table></figure></li></ol><h2 id="卡刷-Gsi"><a href="#卡刷-Gsi" class="headerlink" title="卡刷-Gsi"></a>卡刷-Gsi</h2><ol><li><p>自行刷入第三方 rec 自行下载好 gsi 解压后得到 img 镜像包。要使用官方稳定ROM作为底包，不要使用开发版和任何官改版。</p></li><li><p>手机备份好重要资料后，重启至第三方 recovery TWRP, 并在高级中选择取消强制加密并选中两项后确认。 主页面选择清除，滑动下方滑块进行双清即可，不要自作多情，双清足够。 </p></li><li><p>返回主页面，选择安装后，点击右下方刷入镜像，找到拷贝到手机里的img镜像包，选择后刷入System镜像分区内，等待结束后再次双清即开机。</p></li></ol><h2 id="修复Gis通病"><a href="#修复Gis通病" class="headerlink" title="修复Gis通病"></a>修复Gis通病</h2><ol><li>修复自动亮度失效 </li></ol><p>下载 framework-res__auto_generated_rro.apk</p><p>用re管理器将其复制到 vendor/overlay 文件夹 </p><p>修改 overlay 文件夹权限为 rwxr-xr-x </p><p>手机打开 Termux 输入以下命令 </p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -o remount -w /vendor chcon u:object_r:vendor_overlay_file:s0 /vendor/overlay;chcon u:object_r:vendor_overlay_file:s0 /vendor/overlay/framework-res__auto_generated_rro.apk</span><br></pre></td></tr></table></figure><ol start="2"><li>修复扬声器失真<br>手机下载 Root Explorer<br>删除两个文件夹<br>/system/vendor/lib/soundfx<br>/system/vendor/lib64/soundfx </li></ol><p>改变 vendor 文件夹的权限为 rw-r–r– </p><p>重启手机 </p><ol start="3"><li>修复屏幕状态栏圆角<br>adb 输入以下命令(最后的数字根据自己喜好任意修改)<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell settings put secure sysui_rounded_content_padding 20</span><br></pre></td></tr></table></figure></li></ol><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>至此这篇文章就结束了，讲述了三种刷机方式，希望可以通过这篇文章给你带来有用的知识</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Android </tag>
+            
+            <tag> 刷机教程 </tag>
+            
+            <tag> 类原生 </tag>
+            
+            <tag> 原创 </tag>
             
         </tags>
       
@@ -102,6 +170,10 @@
             
             <tag> Termux </tag>
             
+            <tag> 原创 </tag>
+            
+            <tag> 蓝奏云 </tag>
+            
         </tags>
       
     </entry>
@@ -120,6 +192,33 @@
         <tags>
             
             <tag> Android </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>超新星视频床的使用</title>
+      <link href="/2016/08/11/spc/"/>
+      <url>/2016/08/11/spc/</url>
+      
+        <content type="html"><![CDATA[<p>什么是视频床？<br>在这之前可以先了解一下什么是<a href="https://baike.baidu.com/item/%E5%9B%BE%E5%BA%8A/10721348">图床</a></p><p>就是专门用来存放图片，同时允许你把图片对外连接的网上空间</p><p>故此我把存放到网盘里，并且我可以通过直链接获取到的视频（至少链接不变的情况下）的网盘叫视频床</p><p>在写文章时如果需要在文章中插入视频，我想既然有那么多图床，应该也有视频床嘛，于是找了好久结果还真没有这种东西。</p><p>于是我尝试了几种方法插入视频，但它们都存在一些我不满意的地方：</p><p>首先是 Bilibili 分享的外链，视频在未登录时只能选择 480p 点登录就跳转 B 站了。</p><p>其次是对象存储，阿里云 OSS、腾讯云 COS 都是这类产品，可以自定义播放器样式，速度也很快，只是流量是真的很贵</p><p>之后又尝试了用 Onedrive 和阿里云盘获取直链。Onedrive 可以嵌入播放，但是速度太慢，缓存老长时间，阿里云盘的直链只能下载，嵌入会失效，大概率开了防盗链。</p><p>折腾了好久终于找到一个适合的，今天要薅的猪脚就是＂<a href="https://www.chaoxing.com/">超星</a>这个大人物＂</p><ol><li>稳定性有保障，超星肯定不会跑路</li><li>速度快，我试了下嵌入的视频完全可以</li><li>无限空间，虽然超星网盘只有 100G 存储空间，但我们可以用小组文件来无限存储。</li></ol><p>有账号的登录，没账号的注册®️：<a href="http://i.chaoxing.com/">登入/注册</a></p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/cxxzc.png" alt="图片"></p><p>登录后可以看到左边一排有个 云盘 点击后会有 上传文件</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/cxxyp.png" alt="图片"></p><p>我比较习惯使用via浏览器不只是因为它简洁，还有它的插件和功能，使用via浏览器等视频上传完成后等一会</p><p>** 手机端教程 **<br>我比较习惯使用via浏览器不只是因为它简洁，还有它的插件和功能，使用via浏览器等视频上传完成后等一会</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/spzm.png" alt="图片"></p><p>(这时候网站需要转码需要一些时间，过一会点开视频，点浏览器更多功能，工具箱，资源嗅探）</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/fzsplj.png" alt="图片"></p><p>长按链接把链接复制下来进行编辑</p><p>** PC端教程 **<br>上传之后点击这个文件进入预览界面，然后按 F12 选择检查功能，对这个视频进行检查：</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/78e4e0fb83f069649cba3ea07ef3bd46.jpg" alt="图片"></p><p>之后我们的控制台会跳转到以下代码界面，对右侧的地址右键，选择在新标签页中打开：</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/6357357219e0f4dbe3ab8a55e33e96a3.jpg" alt="图片"></p><p>右键这一串字符串</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/4bc6c1124dffc90955f99f9f417b08bc.jpg" alt="图片"></p><p>在新标签中打开，出现 403 界面不过没问题，我们把地址栏问号前的值复制下来：</p><p><img src="https://gitee.com/yits/mypic/raw/master/2022/02/16/b5718c3e45dadf47c278ef1fcb8b4cae.jpg" alt="图片"></p><p>接下来的步骤不管pc还是手机都是一样</p><p>‘’’<br><a href="https://s1.ananas.chaoxing.com/video/48/59/55/4d2d498801c55a58d2d40d9193d3751a/sd.mp4?at_=1645018185315&amp;ak_=97d9a4f1fa0128f9254e1d898b4b218b&amp;ad_=c1ece5499fe7e38a96ca6eafafd55287">https://s1.ananas.chaoxing.com/video/48/59/55/4d2d498801c55a58d2d40d9193d3751a/sd.mp4?at_=1645018185315&amp;ak_=97d9a4f1fa0128f9254e1d898b4b218b&amp;ad_=c1ece5499fe7e38a96ca6eafafd55287</a><br>‘’’</p><ol><li>删除链接 mp4 后面的所有字符串</li><li>修改链接前的 s1 改成 s138 这样就成功获取到直链了</li></ol><p>‘’’<br><a href="https://s138.ananas.chaoxing.com/video/48/59/55/4d2d498801c55a58d2d40d9193d3751a/sd.mp4">https://s138.ananas.chaoxing.com/video/48/59/55/4d2d498801c55a58d2d40d9193d3751a/sd.mp4</a><br>‘’’</p><p>如果空间不够可以到小组里创建一个小组，选择小组云盘，添加云盘视频，然后就能把云盘的视频删了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 云储存 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 网盘 </tag>
+            
+            <tag> 视频 </tag>
             
         </tags>
       
